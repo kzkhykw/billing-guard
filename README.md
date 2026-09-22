@@ -2,7 +2,15 @@
 
 日本語: [README.ja.md](README.ja.md)
 
-A local cost preflight and Codex skill for cloud and AI applications. It looks for public dynamic pages, uncached fetches, metered AI calls, and hosted runtimes. A repository manifest records budgets, actual stop controls, exposed routes, and evidence. Preflight fails when controls are missing or only alert on spend.
+A local cost preflight and Codex skill for cloud and AI applications. It looks for public dynamic pages, uncached fetches, metered AI calls, and hosted runtimes. A repository manifest records budgets, declared stop controls, exposed routes, and evidence. Preflight fails when controls are missing or only alert on spend.
+
+## Status and scope
+
+This is an experimental, incident-driven checklist and guardrail, not a guarantee against a large bill. The scanner currently favors Next.js and common JavaScript AI integrations; the optional deployment hook is specific to Codex and recognizes a limited set of CLI commands. The tool has not been validated across unrelated production stacks. False positives and missed cost paths are possible.
+
+The manifest's `evidence` check only confirms that a literal string exists in a local source or config file. It cannot show that the code executes, that a provider setting is enabled, or that a hard stop works under load. A `PASS` means the declarations passed these local checks, not that spending is capped. The requirement for a hard stop on every metered service is a deliberately conservative policy and may not fit applications that prioritize availability. Verify live controls and failure behavior separately.
+
+Reports of false positives, missed paths, and results from other stacks are welcome. Please remove credentials, customer data, and account details from shared examples.
 
 ## Quick start
 
