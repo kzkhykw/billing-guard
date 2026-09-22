@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "owner": "service owner",
+  "metered_services": [
+    {
+      "name": "hosting provider",
+      "monthly_budget_usd": 10,
+      "enforcement": "unverified",
+      "verified_at": "",
+      "verified_by": "",
+      "verification_reference": "",
+      "evidence": []
+    }
+  ],
+  "public_routes": [],
+  "paid_actions": [],
+  "reviewed_findings": [],
+  "incident_response": {"kill_switch": ""}
+}
