@@ -54,6 +54,19 @@ class GuardTests(unittest.TestCase):
                 if denied:
                     self.assertEqual(json.loads(result.stdout)["hookSpecificOutput"]["permissionDecision"], "deny")
 
+    def test_hook_detects_push_from_repository_subdirectory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            write_manifest(root, "alert-only")
+            nested = root / "src"
+            nested.mkdir()
+            event = {"tool_name": "Bash", "cwd": str(nested),
+                     "tool_input": {"command": "git push origin main"}}
+            result = subprocess.run([sys.executable, str(PRETOOL)], input=json.dumps(event),
+                                    capture_output=True, text=True)
+            self.assertEqual(json.loads(result.stdout)["hookSpecificOutput"]["permissionDecision"], "deny")
+
     def test_scanner_flags_uncached_public_page(self):
         with tempfile.TemporaryDirectory() as directory:
             page = Path(directory) / "app" / "page.tsx"

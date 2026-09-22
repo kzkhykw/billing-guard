@@ -14,6 +14,9 @@ def production_push(command, cwd):
     if not PUSH.search(command):
         return False
     root = Path(cwd)
+    git_root = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=root, text=True, capture_output=True)
+    if git_root.returncode == 0:
+        root = Path(git_root.stdout.strip())
     package = root / "package.json"
     has_cost_surface = (root / ".billing-guard.json").exists() or (root / "vercel.json").exists() or (root / "wrangler.toml").exists()
     if package.exists():

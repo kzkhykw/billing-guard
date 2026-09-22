@@ -70,6 +70,8 @@ def preflight(root):
         m = json.loads(manifest_path.read_text())
     except (OSError, ValueError) as e:
         return [f"Cannot read .billing-guard.json: {e}"]
+    if not isinstance(m, dict):
+        return [".billing-guard.json must be a JSON object"]
     if m.get("version") != 1 or not m.get("owner"):
         errors.append("version: 1 and owner are required")
     services = m.get("metered_services")
@@ -106,7 +108,8 @@ def preflight(root):
         matches = [x for x in reviewed if isinstance(x, dict) and x.get("kind") == kind and x.get("file") == file]
         if not matches or not any(x.get("mitigation") and evidence_ok(root, x.get("evidence")) for x in matches):
             errors.append(f"Unreviewed finding: {kind} {file}")
-    if not m.get("incident_response", {}).get("kill_switch"):
+    incident = m.get("incident_response")
+    if not isinstance(incident, dict) or not incident.get("kill_switch"):
         errors.append("Document a kill switch in incident_response.kill_switch")
     return errors
 
