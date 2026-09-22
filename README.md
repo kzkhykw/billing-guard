@@ -1,5 +1,7 @@
 # Billing Guard
 
+日本語: [README.ja.md](README.ja.md)
+
 A local cost preflight and Codex skill for cloud and AI applications. It looks for public dynamic pages, uncached fetches, metered AI calls, and hosted runtimes. A repository manifest records budgets, actual stop controls, exposed routes, and evidence. Preflight fails when controls are missing or only alert on spend.
 
 ## Quick start
